@@ -20,34 +20,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
  
--- Increase selected object visibility
+-- Remove selection's material
 
-macroScript Increase_Visibility category:"EKMax"
-tooltip:"Increase Visibility"
+macroScript Remove_Material category:"EKMax"
+tooltip:"Remove Material"
 (
-	fn increaseVis obj =
-	(
-		obj.visibility = Bezier_float()
-		if(obj.visibility.controller.value < 0.25)
-		then(obj.visibility.controller.value = 0.25)
-		else if(obj.visibility.controller.value < 0.5)
-		then(obj.visibility.controller.value = 0.5)
-		else if(obj.visibility.controller.value < 1.0)
-		then(obj.visibility.controller.value = 1.0)
-		notifyDependents obj
-		redrawViews()
-	)
-	
-	if($ == selection) then
-	(
-		for i=1 to selection.count do
+	if($ != undefined) then
+	(			
+		if($ == selection) then
 		(
-			increaseVis(selection[i])
+			for i=1 to selection.count do
+			(
+				selection[i].material = undefined
+			)
 		)
-	)	
-	else if ($ != undefined) then
-	(
-		increaseVis($)
+		else
+		(
+			$.material = undefined
+		)
 	)
 )
-

@@ -20,34 +20,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
  
--- Increase selected object visibility
+-- Nudge X positive direction by grid spacing amount
 
-macroScript Increase_Visibility category:"EKMax"
-tooltip:"Increase Visibility"
+macroScript NudgeUpX category:"EKMax"
+tooltip:"Nudge Up X"
 (
-	fn increaseVis obj =
+	-- Positive X Axis
+	nudgeUnitVec = [1,0,0]
+	
+	refCoordSys = getRefCoordSys()
+	currSubObjectLevel = subObjectLevel	
+	nudgeVec = nudgeUnitVec * gridPrefs.spacing
+	
+	if(refCoordSys != #local) then
 	(
-		obj.visibility = Bezier_float()
-		if(obj.visibility.controller.value < 0.25)
-		then(obj.visibility.controller.value = 0.25)
-		else if(obj.visibility.controller.value < 0.5)
-		then(obj.visibility.controller.value = 0.5)
-		else if(obj.visibility.controller.value < 1.0)
-		then(obj.visibility.controller.value = 1.0)
-		notifyDependents obj
-		redrawViews()
+		refCoordSys = #world
 	)
 	
-	if($ == selection) then
+	if (currSubObjectLevel == undefined or currSubObjectLevel == 0) then
 	(
-		for i=1 to selection.count do
-		(
-			increaseVis(selection[i])
-		)
-	)	
-	else if ($ != undefined) then
+		in coordsys refCoordSys move $ nudgeVec
+	)
+	else
 	(
-		increaseVis($)
+		$.modifiers[#Edit_Poly].SetOperation #Transform
+		in coordsys refCoordSys $.modifiers[#Edit_Poly].MoveSelection nudgeVec
+		$.modifiers[#Edit_Poly].Commit ()
 	)
 )
-

@@ -19,35 +19,33 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- 
--- Increase selected object visibility
 
-macroScript Increase_Visibility category:"EKMax"
-tooltip:"Increase Visibility"
+-- Hide/unhide toggle for selected object(s)
+ 
+macroScript Toggle_Hide category:"EKMax"
+tooltip:"Toggle Hide"
 (
-	fn increaseVis obj =
+	fn toggleHide obj =
 	(
-		obj.visibility = Bezier_float()
-		if(obj.visibility.controller.value < 0.25)
-		then(obj.visibility.controller.value = 0.25)
-		else if(obj.visibility.controller.value < 0.5)
-		then(obj.visibility.controller.value = 0.5)
-		else if(obj.visibility.controller.value < 1.0)
-		then(obj.visibility.controller.value = 1.0)
-		notifyDependents obj
-		redrawViews()
+		if(obj.isHidden) then
+		(
+			unhide obj
+		)
+		else
+		(
+			hide obj
+		)
 	)
 	
 	if($ == selection) then
 	(
 		for i=1 to selection.count do
 		(
-			increaseVis(selection[i])
+			toggleHide(selection[i])
 		)
 	)	
 	else if ($ != undefined) then
 	(
-		increaseVis($)
+		toggleHide($)
 	)
 )
-

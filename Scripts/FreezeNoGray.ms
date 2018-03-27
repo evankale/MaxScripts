@@ -25,7 +25,10 @@
 macroScript Freeze_No_Gray category:"EKMax"
 tooltip:"Freeze (No gray)"
 (
-	freeze $
-	$.showFrozenInGray = off
-	clearSelection()
+	if ($ != undefined) then
+	(
+		$.showFrozenInGray = off
+		freeze $		
+		clearSelection()
+	)
 )

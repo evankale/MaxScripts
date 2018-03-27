@@ -35,6 +35,7 @@ tooltip:"Decrease Visibility"
 		else if(obj.visibility.controller.value > 0.1)
 		then(obj.visibility.controller.value = 0.1)	
 		notifyDependents obj	
+		redrawViews()
 	)
 	
 	if($ == selection) then
@@ -44,7 +45,7 @@ tooltip:"Decrease Visibility"
 			decreaseVis(selection[i])
 		)
 	)	
-	else
+	else if ($ != undefined) then
 	(
 		decreaseVis($)
 	)

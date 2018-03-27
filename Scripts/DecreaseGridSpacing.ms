@@ -20,34 +20,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
  
--- Increase selected object visibility
+-- Decrease grid spacing
 
-macroScript Increase_Visibility category:"EKMax"
-tooltip:"Increase Visibility"
+macroScript Decrease_Grid_Spacing category:"EKMax"
+tooltip:"Decrease Grid Spacing"
 (
-	fn increaseVis obj =
-	(
-		obj.visibility = Bezier_float()
-		if(obj.visibility.controller.value < 0.25)
-		then(obj.visibility.controller.value = 0.25)
-		else if(obj.visibility.controller.value < 0.5)
-		then(obj.visibility.controller.value = 0.5)
-		else if(obj.visibility.controller.value < 1.0)
-		then(obj.visibility.controller.value = 1.0)
-		notifyDependents obj
-		redrawViews()
-	)
+	if(gridPrefs.spacing > 50)
+	then(gridPrefs.spacing= 50)
+	else if(gridPrefs.spacing > 20)
+	then(gridPrefs.spacing = 20)
+	else if(gridPrefs.spacing > 10)
+	then(gridPrefs.spacing = 10)
+	else if(gridPrefs.spacing > 5)
+	then(gridPrefs.spacing = 5)
+	else if(gridPrefs.spacing > 2)
+	then(gridPrefs.spacing = 2)
+	else if(gridPrefs.spacing > 1)
+	then(gridPrefs.spacing = 1)
+	else if(gridPrefs.spacing > 0.5)
+	then(gridPrefs.spacing = 0.5)	
 	
-	if($ == selection) then
-	(
-		for i=1 to selection.count do
-		(
-			increaseVis(selection[i])
-		)
-	)	
-	else if ($ != undefined) then
-	(
-		increaseVis($)
-	)
+	print (gridPrefs.spacing)
 )
-
